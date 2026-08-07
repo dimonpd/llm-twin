@@ -1,0 +1,22 @@
+[project]
+name = "llm-twin"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Dmitry Pavlyukevich", email = "dimonpd@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "numpy>=2.5.1",
+    "polars>=1.43.2",
+    "requests>=2.34.2",
+    "zenml[local,server]>=0.96.3",
+]
+
+[project.scripts]
+llm-twin = "llm_twin:main"
+
+[build-system]
+requires = ["uv_build>=0.12.2,<0.13.0"]
+build-backend = "uv_build"
