@@ -12,4 +12,22 @@
         "notebook.source.fixAll": "explicit",
         "notebook.source.organizeImports": "explicit"
     },
+    "python-envs.pythonProjects": [
+        {
+            "path": ".",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        }
+    ],
+    "simpleCodingTimeTracker.inactivityTimeout": 30,
+    "simpleCodingTimeTracker.focusTimeout": 30,
+    "simpleCodingTimeTracker.statusBar.showSeconds": true,
+    "simpleCodingTimeTracker.statusBar.icon": "$(code)",
+    "simpleCodingTimeTracker.statusBar.backgroundStyle": "warning",
+    "simpleCodingTimeTracker.statusBar.color": "",
+    "simpleCodingTimeTracker.health.enableNotifications": false,
+    "simpleCodingTimeTracker.health.modalNotifications": true,
+    "simpleCodingTimeTracker.health.eyeRestInterval": 20,
+    "simpleCodingTimeTracker.health.stretchInterval": 30,
+    "simpleCodingTimeTracker.health.breakThreshold": 90,
 }

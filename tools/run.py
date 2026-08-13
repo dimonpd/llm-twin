@@ -12,6 +12,7 @@ from pipelines import (
     export_artifact_to_json,
     feature_engineering,
     generate_datasets,
+    mayakovsky_etl,
     training,
 )
 
@@ -62,6 +63,22 @@ Examples:
     is_flag=True,
     default=False,
     help="Whether to run the ETL pipeline.",
+)
+@click.option(
+    "--run-mayakovsky-etl",
+    is_flag=True,
+    default=False,
+    help="Whether to run the Mayakovsky ETL pipeline (CustomArticleCrawler only).",
+)
+@click.option(
+    "--mayakovsky-user",
+    default="Vladimir Mayakovsky",
+    help="User full name for the Mayakovsky ETL pipeline.",
+)
+@click.option(
+    "--mayakovsky-index-url",
+    default="https://slova.org.ru/mayakovskiy/",
+    help="Index URL for the Mayakovsky ETL pipeline.",
 )
 @click.option(
     "--run-export-artifact-to-json",
@@ -115,6 +132,9 @@ def main(
     run_end_to_end_data: bool = False,
     run_etl: bool = False,
     etl_config_filename: str = "digital_data_etl_paul_iusztin.yaml",
+    run_mayakovsky_etl: bool = False,
+    mayakovsky_user: str = "Vladimir Mayakovsky",
+    mayakovsky_index_url: str = "https://slova.org.ru/mayakovskiy/",
     run_export_artifact_to_json: bool = False,
     run_feature_engineering: bool = False,
     run_generate_instruct_datasets: bool = False,
@@ -126,6 +146,7 @@ def main(
     assert (
         run_end_to_end_data
         or run_etl
+        or run_mayakovsky_etl
         or run_export_artifact_to_json
         or run_feature_engineering
         or run_generate_instruct_datasets
@@ -157,6 +178,11 @@ def main(
         assert pipeline_args["config_path"].exists(), f"Config file not found: {pipeline_args['config_path']}"
         pipeline_args["run_name"] = f"digital_data_etl_run_{dt.now().strftime('%Y_%m_%d_%H_%M_%S')}"
         digital_data_etl.with_options(**pipeline_args)(**run_args_etl)
+
+    if run_mayakovsky_etl:
+        run_args_mayakovsky = {"user_full_name": mayakovsky_user, "index_url": mayakovsky_index_url}
+        pipeline_args["run_name"] = f"mayakovsky_etl_run_{dt.now().strftime('%Y_%m_%d_%H_%M_%S')}"
+        mayakovsky_etl.with_options(**pipeline_args)(**run_args_mayakovsky)
 
     if run_export_artifact_to_json:
         run_args_etl = {}

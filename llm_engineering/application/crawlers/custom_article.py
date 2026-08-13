@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+from bs4 import BeautifulSoup
 from langchain_community.document_loaders import AsyncHtmlLoader
 from langchain_community.document_transformers.html2text import Html2TextTransformer
 from loguru import logger
@@ -52,3 +53,20 @@ class CustomArticleCrawler(BaseCrawler):
         instance.save()
 
         logger.info(f"Finished scrapping custom article: {link}")
+
+    def extract_from_index(self, index_url: str, **kwargs) -> None:
+        loader = AsyncHtmlLoader([index_url])
+        docs = loader.load()
+        soup = BeautifulSoup(docs[0].page_content, "html.parser")
+
+        parsed = urlparse(index_url)
+        prefix = parsed.path
+        base = f"{parsed.scheme}://{parsed.netloc}"
+
+        links = soup.find_all("a", href=True)
+
+        poems = [base + a["href"] for a in links if a.get("href", "").startswith(prefix)]
+
+        logger.info(f"Found {len(poems)} links on {index_url}")
+        for poem in poems:
+            self.extract(link=poem, **kwargs)

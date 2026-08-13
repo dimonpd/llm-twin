@@ -35,6 +35,11 @@ class CrawlerDispatcher:
 
         return self
 
+    def register_slova_org(self) -> "CrawlerDispatcher":
+        self.register("https://slova.org.ru", CustomArticleCrawler)
+
+        return self
+
     def register(self, domain: str, crawler: type[BaseCrawler]) -> None:
         parsed_domain = urlparse(domain)
         domain = parsed_domain.netloc

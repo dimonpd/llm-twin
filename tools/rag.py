@@ -1,4 +1,4 @@
-from langchain.globals import set_verbose
+from langchain_core.globals import set_verbose
 from loguru import logger
 
 from llm_engineering.application.rag.retriever import ContextRetriever

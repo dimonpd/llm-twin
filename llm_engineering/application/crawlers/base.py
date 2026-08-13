@@ -20,6 +20,9 @@ class BaseCrawler(ABC):
     @abstractmethod
     def extract(self, link: str, **kwargs) -> None: ...
 
+    def extract_from_index(self, index_url: str, **kwargs) -> None:
+        self.extract(link=index_url, **kwargs)
+
 
 class BaseSeleniumCrawler(BaseCrawler, ABC):
     def __init__(self, scroll_limit: int = 5) -> None:
